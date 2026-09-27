@@ -1,0 +1,59 @@
+{
+  "name": "smtping",
+  "version": "1.0.0",
+  "description": "Official SMTPing SDK and CLI: verify email addresses, run bulk list jobs, and check spamtrap, disposable, spambot and complainer lists.",
+  "keywords": [
+    "smtping",
+    "email verification",
+    "email validation",
+    "email verifier",
+    "bulk email verification",
+    "disposable email",
+    "spamtrap",
+    "cli"
+  ],
+  "license": "MIT",
+  "homepage": "https://smtping.com/docs",
+  "bugs": {
+    "url": "https://github.com/smtping/smtping-node/issues",
+    "email": "support@smtping.com"
+  },
+  "author": {
+    "name": "SMTPing",
+    "email": "support@smtping.com",
+    "url": "https://smtping.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smtping/smtping-node.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "smtping": "cli.cjs"
+  },
+  "files": [
+    "index.cjs",
+    "index.mjs",
+    "index.d.ts",
+    "cli.cjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test.cjs"
+  },
+  "sideEffects": false
+}
