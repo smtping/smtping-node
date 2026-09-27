@@ -1,5 +1,5 @@
 {
-  "name": "smtping",
+  "name": "@smtping/sdk",
   "version": "1.0.0",
   "description": "Official SMTPing SDK and CLI: verify email addresses, run bulk list jobs, and check spamtrap, disposable, spambot and complainer lists.",
   "keywords": [
@@ -55,5 +55,8 @@
   "scripts": {
     "test": "node test.cjs"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  }
 }

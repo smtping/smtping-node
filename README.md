@@ -11,7 +11,7 @@ Official JavaScript and TypeScript SDK and command-line tool for the [SMTPing](h
 ## Install
 
 ```bash
-npm install smtping
+npm install @smtping/sdk
 ```
 
 Create an API key in the [SMTPing dashboard](https://app.smtping.com). Pass it to the client or set `SMTPING_API_KEY`.
@@ -19,7 +19,7 @@ Create an API key in the [SMTPing dashboard](https://app.smtping.com). Pass it t
 ## Verify one address
 
 ```js
-import Smtping from 'smtping';
+import Smtping from '@smtping/sdk';
 
 const smtping = new Smtping({ apiKey: process.env.SMTPING_API_KEY });
 
@@ -30,7 +30,7 @@ console.log(r.status, r.band); // "valid" "safe"
 CommonJS works too:
 
 ```js
-const { Smtping } = require('smtping');
+const { Smtping } = require('@smtping/sdk');
 ```
 
 Every result carries a `band` field for simple routing:
@@ -79,7 +79,7 @@ const { remaining, plan } = await smtping.credits();
 ## Errors
 
 ```js
-import { AuthenticationError, InsufficientCreditsError, RateLimitError } from 'smtping';
+import { AuthenticationError, InsufficientCreditsError, RateLimitError } from '@smtping/sdk';
 
 try {
   await smtping.verify('jane@example.com');
@@ -103,16 +103,16 @@ Classes: `SmtpingError` (base, with `status` and `body`), `AuthenticationError`,
 ## CLI
 
 ```bash
-npx smtping login sk_live_xxx
-npx smtping verify jane@example.com john@example.org
-npx smtping bulk contacts.csv --wait --out results.csv
-npx smtping status <job-id>
-npx smtping results <job-id> --out results.csv
-npx smtping check disposable jane@example.com
-npx smtping credits
+npx @smtping/sdk login sk_live_xxx
+npx @smtping/sdk verify jane@example.com john@example.org
+npx @smtping/sdk bulk contacts.csv --wait --out results.csv
+npx @smtping/sdk status <job-id>
+npx @smtping/sdk results <job-id> --out results.csv
+npx @smtping/sdk check disposable jane@example.com
+npx @smtping/sdk credits
 ```
 
-Install globally with `npm install -g smtping` to drop the `npx`. Add `--json` to any command for machine-readable output. The key is read from `--key`, then `SMTPING_API_KEY`, then the file saved by `smtping login` (`~/.config/smtping/config.json`).
+Or install it globally with `npm install -g @smtping/sdk` and run `smtping` directly. Add `--json` to any command for machine-readable output. The key is read from `--key`, then `SMTPING_API_KEY`, then the file saved by `smtping login` (`~/.config/smtping/config.json`).
 
 ## Links
 
