@@ -103,21 +103,39 @@ Classes: `SmtpingError` (base, with `status` and `body`), `AuthenticationError`,
 ## CLI
 
 ```bash
-npx @smtping/sdk login sk_live_xxx
-npx @smtping/sdk verify jane@example.com john@example.org
-npx @smtping/sdk bulk contacts.csv --wait --out results.csv
-npx @smtping/sdk status <job-id>
-npx @smtping/sdk results <job-id> --out results.csv
-npx @smtping/sdk check disposable jane@example.com
-npx @smtping/sdk credits
+npm install -g @smtping/sdk      # or run any command with npx @smtping/sdk
+smtping auth login               # asks for the key, tests it, saves it
+smtping verify jane@example.com john@example.org
+smtping bulk contacts.csv --wait --out results.csv
+smtping check disposable jane@example.com
+smtping credits
+smtping raw GET /credits         # any API endpoint
 ```
 
-Or install it globally with `npm install -g @smtping/sdk` and run `smtping` directly. Add `--json` to any command for machine-readable output. The key is read from `--key`, then `SMTPING_API_KEY`, then the file saved by `smtping login` (`~/.config/smtping/config.json`).
+- Output is a table in a terminal and JSON in a pipe (`--json` / `--table` to force).
+- Bulk jobs ask before spending credits; add `--yes` in scripts and CI.
+- `--fail-on avoid` or `--fail-on judgement` turns verdicts into exit codes.
+- Shell completion: `smtping completion bash|zsh|fish|powershell`.
+- The key is read from `--key`, then `SMTPING_API_KEY`, then `~/.config/smtping/config.json`.
+
+| exit code | meaning |
+| --- | --- |
+| 0 | ok |
+| 1 | error |
+| 2 | usage error or cancelled |
+| 3 | missing or invalid API key |
+| 4 | not enough credits |
+| 5 | rate limited |
+| 10 | an address is `avoid` (with `--fail-on`) |
+| 11 | an address is `judgement` (with `--fail-on judgement`) |
+
+Full guide: [smtping.com/cli](https://smtping.com/cli)
 
 ## Links
 
 - [API documentation](https://smtping.com/docs)
 - [Pricing](https://smtping.com/pricing)
 - Support: support@smtping.com
+- Blog: [SMTPedia](https://smtpedia.com)
 
 MIT License
