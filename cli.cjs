@@ -172,8 +172,16 @@ async function login(keyArg) {
     process.stderr.write(`Create an API key in the SMTPing dashboard: ${KEYS_URL} (API keys).\n`);
     key = await ask('Paste your API key: ', true);
   }
+  // Windows terminals can wrap a paste in escape sequences or add control characters.
+  key = String(key).replace(/\x1b\[[0-9;]*[~A-Za-z]/g, '').replace(/[^\x21-\x7e]/g, '');
   if (!key) fail('No key entered.', EXIT.USAGE);
-  const c = await new Smtping({ apiKey: key, userAgent: `smtping-cli/${VERSION}` }).credits();
+  let c;
+  try {
+    c = await new Smtping({ apiKey: key, userAgent: `smtping-cli/${VERSION}` }).credits();
+  } catch (e) {
+    if (e.status === 401 || e.status === 403) fail(`Invalid API key (${key.length} characters, starting with ${key.slice(0, 8)}). Check it in ${KEYS_URL}, or pass it directly: smtping auth login <api-key>`, EXIT.AUTH);
+    throw e;
+  }
   fs.mkdirSync(path.dirname(CONFIG), { recursive: true });
   fs.writeFileSync(CONFIG, JSON.stringify({ apiKey: key }, null, 2), { mode: 0o600 });
   process.stderr.write(`Key ${mask(key)} saved to ${CONFIG}. Credits: ${c.remaining}${c.plan ? ` (${c.plan})` : ''}\n`);
@@ -354,6 +362,13 @@ async function main() {
   }
 }
 
+function friendly(e) {
+  if (e.status === 401 || e.status === 403) return 'Invalid API key. Run "smtping auth login" or check SMTPING_API_KEY.';
+  if (e.status === 402) return 'Not enough credits. Top up at https://smtping.com/pricing';
+  if (e.status === 429) return 'Rate limited. Wait a few seconds and try again.';
+  return e.message;
+}
+
 function exitCodeFor(e) {
   if (e.status === 401 || e.status === 403 || e.name === 'AuthenticationError') return EXIT.AUTH;
   if (e.status === 402 || e.name === 'InsufficientCreditsError') return EXIT.CREDITS;
@@ -361,4 +376,4 @@ function exitCodeFor(e) {
   return EXIT.ERROR;
 }
 
-main().catch((e) => fail(e.message, exitCodeFor(e)));
+main().catch((e) => fail(friendly(e), exitCodeFor(e)));

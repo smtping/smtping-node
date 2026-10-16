@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const DEFAULT_BASE_URL = 'https://api.smtping.com/api/v1';
 const SAFE = ['valid', 'alias'];
 const AVOID = ['invalid', 'spamtrap', 'disposable', 'blacklisted', 'complainer', 'spambot', 'inbox_full'];

@@ -1,6 +1,6 @@
 {
   "name": "@smtping/sdk",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Official SMTPing SDK and CLI: verify email addresses, run bulk list jobs, and check spamtrap, disposable, spambot and complainer lists.",
   "keywords": [
     "smtping",
