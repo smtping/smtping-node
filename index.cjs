@@ -3,7 +3,8 @@
 const VERSION = '1.1.1';
 const DEFAULT_BASE_URL = 'https://api.smtping.com/api/v1';
 const SAFE = ['valid', 'alias'];
-const AVOID = ['invalid', 'spamtrap', 'disposable', 'blacklisted', 'complainer', 'spambot', 'inbox_full'];
+const AVOID = ['invalid', 'spamtrap', 'disposable', 'blacklisted', 'complainer', 'spambot', 'inbox_full', 'no_reply'];
+const BANDS = ['safe', 'avoid', 'judgement'];
 const CHECKS = ['spamtrap', 'disposable', 'spambot', 'complainer'];
 const BULK_MAX = 100000;
 
@@ -173,7 +174,8 @@ function backoff(attempt) {
 }
 
 function withBand(r) {
-  if (r && typeof r.status === 'string' && !r.band) return { ...r, band: band(r.status) };
+  // The API decides the band (a valid address on a mistyped domain is judgement).
+  if (r && typeof r.status === 'string' && !BANDS.includes(r.band)) return { ...r, band: band(r.status) };
   return r;
 }
 

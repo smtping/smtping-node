@@ -10,6 +10,7 @@ export interface VerifyResult {
   email: string;
   status: Status;
   statusDescription?: string;
+  /** Decided by the API; derived from the status when a response has none. */
   band: Band;
   isDisposable?: boolean;
   isFreeDomain?: boolean;
